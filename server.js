@@ -26,13 +26,6 @@ app.get("/scrape", function (req, res) {
 
             result.title = $(element).text();
 
-            // var title = $(element).text()
-            // console.log(title);
-            // results.push({
-            //     title: title
-            // });
-            // db.scrapedData.insert({ title: title });
-
             db.Article.create(result)
                 .then(function (dbArticle) {
                     // View the added result in the console
@@ -46,11 +39,9 @@ app.get("/scrape", function (req, res) {
 
         });
         res.json(results);
-
-
     });
 })
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
     console.log("App running on port 3000!");
 });
