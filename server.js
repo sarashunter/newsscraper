@@ -20,9 +20,9 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-var routes = require("./controllers/articleController.js");
+// var routes = require("./controllers/articleController.js");
 
-app.use(routes);
+// app.use(routes);
 
 app.get("/scrape", function (req, res) {
     axios.get("https://vox.com/").then(function (response) {
@@ -40,7 +40,7 @@ app.get("/scrape", function (req, res) {
             result.author = $(element).parent().parent().children(".c-byline").children().first().text().trim();
 
             if (db.Article.find({ url: result.url }).length === 0) {
-                
+
                 db.Article.create(result)
                     .then(function (dbArticle) {
                         // View the added result in the console
@@ -51,8 +51,8 @@ app.get("/scrape", function (req, res) {
                         // If an error occurred, send it to the client
                         return res.json(err);
                     });
-                }
-            });
+            }
+        });
         res.json("Scrape Successful!");
     });
 })
@@ -62,6 +62,27 @@ app.get("/scraped", function (req, res) {
         res.json(dbArticle);
     }).catch(function (err) {
         res.json(err)
+    })
+})
+
+app.get("/", function (req, res) {
+    let articleArray;
+
+    // db.Article.find({}).then(function (dbArticle) {
+    //     // articles.forEach(element => {
+    //     //     articleArray.push({ title: element.title });
+    //     // });
+
+    //     // const hbsObject = {
+    //     //     articles: articleArray
+    //     // };
+    //     res.render("index", hbsObject);
+    // }).catch(function (err) {
+    //     res.json(err)
+    // })
+
+    db.Article.find(function(err, articles){
+        res.render("index", {articles: articles})
     })
 })
 
