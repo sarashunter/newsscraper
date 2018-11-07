@@ -66,23 +66,17 @@ app.get("/scraped", function (req, res) {
 })
 
 app.get("/", function (req, res) {
-    let articleArray;
-
-    // db.Article.find({}).then(function (dbArticle) {
-    //     // articles.forEach(element => {
-    //     //     articleArray.push({ title: element.title });
-    //     // });
-
-    //     // const hbsObject = {
-    //     //     articles: articleArray
-    //     // };
-    //     res.render("index", hbsObject);
-    // }).catch(function (err) {
-    //     res.json(err)
-    // })
 
     db.Article.find(function(err, articles){
         res.render("index", {articles: articles})
+    })
+})
+
+app.get("/scraped/:id", function(req, res){
+    db.Article.findOne({_id:req.params.id}).populate("Comment").then(function(dbArticle){
+        res.json(dbArticle)
+    }).catch(function(err){
+        res.json(err);
     })
 })
 

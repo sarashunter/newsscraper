@@ -17,6 +17,11 @@ var ArticleSchema = new Schema({
     author:{
         type: String,
         required: true
+    },
+    
+    comment:{
+        type: Schema.Types.ObjectId,
+        ref:"Comment"
     }
 })
 
