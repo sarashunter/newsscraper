@@ -105,8 +105,8 @@ app.post("/submit", function (req, res) {
 
 
 app.post("/delete", function (req, res) {
-    console.log(req.body.id + " " + req.body.comment);
-    db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.id) }, { $pull: { comments: req.body.comment } }, function (error) {
+    console.log(req.body.id + " " + req.body.commentId);
+    db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.id) }, { $pull: { comments: mongoose.Types.ObjectId(req.body.commentId) } }, function (error) {
 
         if (error) {
             console.log(error);

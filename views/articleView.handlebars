@@ -13,8 +13,7 @@
 
     {{#each article.comments}}
     <div class="card">
-        <data-id=" {{article.id}}">
-            <button class="delete" data-id="{{article.id}}">Delete</button>
+            <button class="delete" data-id="{{this._id}}" data-commentId="{{this._id}}">Delete</button>
         {{this.body}}
     </div>
 

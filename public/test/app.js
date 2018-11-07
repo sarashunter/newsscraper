@@ -18,15 +18,15 @@ $("#submit").on("click", () =>{
     })
 })
 
-$(".delete").on("click", () =>{
+$(".delete").click(function() {
     event.preventDefault();
-    console.log("in here");
+    
     $.ajax({
         type: "POST",
         url: "/delete",
         dataType: "json",
         data: {id: $(this).attr("data-id"),
-        comment: $(this).attr("data-comment")
+        commentId: $(this).attr("data-commentId")
     }
     }).then(() =>{
         loadComments($("#submit").attr("data-id"))
