@@ -80,7 +80,7 @@ app.get("/scraped/:id", function (req, res) {
         if (error) {
             console.log(error)
         } else {
-            console.log("test " + article);
+
             res.render("articleView", { article: article });
         }
     });
@@ -89,13 +89,23 @@ app.get("/scraped/:id", function (req, res) {
 app.post("/submit", function (req, res) {
     // console.log("req " + JSON.stringify(req.body));
 
-    db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId("5be23c7897e2120947981b10") }, { $push: { comments: req.body.commentText } }, function (error) {
+    db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.id) }, { $push: { comments: req.body.commentText } }, function (error) {
 
         if (error) {
             console.log(error);
         }
     });
 });
+
+app.post("/delete", function(req, res){
+    console.log(req.body.id + " " + req.body.comment);
+    db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.id) }, { $pull: { comments: req.body.comment } }, function (error) {
+
+        if (error) {
+            console.log(error);
+        }
+    });
+})
 
 app.listen(process.env.PORT || 3000, function () {
     console.log("App running on port 3000!");

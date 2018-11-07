@@ -1,11 +1,24 @@
 <div class="jumbotron">
-<h1><a href="{{article.url}}">{{article.title}}</a></h1>
-<p class="lead">By: {{article.author}}</p>
-<form>
-<div class="form-group">
-    <textarea class="form-control" id="comment" rows="3"></textarea>
-  </div>
-    <button type="submit" id="submit" class="btn btn-primary" data-id="{{article.id}}">Add Comment</button>
-</form>
+    <h1><a href="{{article.url}}">{{article.title}}</a></h1>
+    <p class="lead">By: {{article.author}}</p>
+
+    <div class="input-group mb-3 input-group-lg">
+        <input type="text" class="form-control" id="comment" placeholder="Comment">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit" id="submit" data-id="{{article.id}}">Submit</button>
+        </div>
+    </div>
+
+
+
+    {{#each article.comments}}
+    <div class="card">
+        {{!-- <data-id=" {{article.id}}"> --}}
+            <button data-comment="{{this}}" class="delete" data-id="{{article.id}}">Delete</button>
+        {{this}}
+    </div>
+
+    {{/each}}
+
 
 </div>
