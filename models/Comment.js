@@ -3,7 +3,13 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var CommentSchema = new Schema({
-    body: String
+    body: {
+        type:String
+    },
+
+    exists: {
+        type: Boolean
+    }
 })
 
 var Comment = mongoose.model("Comment", CommentSchema);

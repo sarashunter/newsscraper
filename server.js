@@ -78,7 +78,7 @@ app.get("/scraped/:id", function (req, res) {
     db.Article.findOne({ _id: req.params.id }).populate("comments").then(function (article) {
 
         res.render("articleView", { article: article });
-    }).catch(function (err){
+    }).catch(function (err) {
         res.json(err);
     });
 
@@ -90,8 +90,8 @@ app.post("/submit", function (req, res) {
 
     const articleID = req.body.id;
     // console.log("req " + JSON.stringify(req.body));
-    db.Comment.create({ body: req.body.commentText }).then(function (dbComment) {
-        return db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId(articleID) }, { $push: { comments: dbComment._id } }, { new: true });
+    db.Comment.create({ body: req.body.commentText, exists: true }).then(function (dbComment) {
+        return db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId(articleID) }, { $push: { comments: dbComment._id, exists: true } }, { new: true });
     }).then(function (dbArticle) {
         // If we were able to successfully update an Article, send it back to the client
         res.json(dbArticle);
@@ -106,12 +106,13 @@ app.post("/submit", function (req, res) {
 
 app.post("/delete", function (req, res) {
     console.log(req.body.id + " " + req.body.commentId);
-    db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.id) }, { $pull: { comments: mongoose.Types.ObjectId(req.body.commentId) } }, function (error) {
+    db.Comment.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.commentId) }, { exists: false }, function(error) {
 
-        if (error) {
-            console.log(error);
-        }
-    });
+            if (error) {
+                console.log(error);
+            }
+        });
+    
 })
 
 app.listen(process.env.PORT || 3000, function () {
