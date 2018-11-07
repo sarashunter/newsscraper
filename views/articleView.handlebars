@@ -13,9 +13,9 @@
 
     {{#each article.comments}}
     <div class="card">
-        {{!-- <data-id=" {{article.id}}"> --}}
-            <button data-comment="{{this}}" class="delete" data-id="{{article.id}}">Delete</button>
-        {{this}}
+        <data-id=" {{article.id}}">
+            <button class="delete" data-id="{{article.id}}">Delete</button>
+        {{this.body}}
     </div>
 
     {{/each}}

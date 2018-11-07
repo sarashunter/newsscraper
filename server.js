@@ -75,29 +75,36 @@ app.get("/", function (req, res) {
 })
 
 app.get("/scraped/:id", function (req, res) {
-    db.Article.findOne({ _id: req.params.id }, function (error, article) {
+    db.Article.findOne({ _id: req.params.id }).populate("comments").then(function (article) {
 
-        if (error) {
-            console.log(error)
-        } else {
-
-            res.render("articleView", { article: article });
-        }
+        res.render("articleView", { article: article });
+    }).catch(function (err){
+        res.json(err);
     });
+
 })
 
+
+
 app.post("/submit", function (req, res) {
+
+    const articleID = req.body.id;
     // console.log("req " + JSON.stringify(req.body));
-
-    db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.id) }, { $push: { comments: req.body.commentText } }, function (error) {
-
-        if (error) {
-            console.log(error);
-        }
-    });
+    db.Comment.create({ body: req.body.commentText }).then(function (dbComment) {
+        return db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId(articleID) }, { $push: { comments: dbComment._id } }, { new: true });
+    }).then(function (dbArticle) {
+        // If we were able to successfully update an Article, send it back to the client
+        res.json(dbArticle);
+    })
+        .catch(function (err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+        });
 });
 
-app.post("/delete", function(req, res){
+
+
+app.post("/delete", function (req, res) {
     console.log(req.body.id + " " + req.body.comment);
     db.Article.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.id) }, { $pull: { comments: req.body.comment } }, function (error) {
 
