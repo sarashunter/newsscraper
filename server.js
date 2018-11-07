@@ -67,17 +67,27 @@ app.get("/scraped", function (req, res) {
 
 app.get("/", function (req, res) {
 
-    db.Article.find(function(err, articles){
-        res.render("index", {articles: articles})
+    db.Article.find(function (err, articles) {
+        res.render("index", { articles: articles })
     })
 })
 
-app.get("/scraped/:id", function(req, res){
-    db.Article.findOne({_id:req.params.id}).populate("Comment").then(function(dbArticle){
-        res.json(dbArticle)
-    }).catch(function(err){
-        res.json(err);
-    })
+app.get("/scraped/:id", function (req, res) {
+    db.Article.findOne({ _id: req.params.id }, function (error, article) {
+
+        if (error){
+            console.log(error)
+        }else{
+        console.log("test " + article);
+        res.render("articleView", {article: article });
+        }
+    });
+    // }.then(function(dbArticle){
+    //     res.render("articleView", )
+    //     res.json(dbArticle)
+    // }).catch(function(err){
+    //     res.json(err);
+    // })
 })
 
 app.listen(process.env.PORT || 3000, function () {
