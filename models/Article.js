@@ -15,7 +15,8 @@ var ArticleSchema = new Schema({
     },
 
     author:{
-        type: String
+        type: String,
+        required: true
     }
 })
 

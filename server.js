@@ -36,23 +36,33 @@ app.get("/scrape", function (req, res) {
             var result = {};
 
             result.title = $(element).text();
-            result.url= $(element).attr("href");
+            result.url = $(element).attr("href");
             result.author = $(element).parent().parent().children(".c-byline").children().first().text().trim();
 
-            db.Article.create(result)
-                .then(function (dbArticle) {
-                    // View the added result in the console
-                    console.log(dbArticle);
-                    results.push(result);
-                })
-                .catch(function (err) {
-                    // If an error occurred, send it to the client
-                    return res.json(err);
-                });
-
-        });
+            if (db.Article.find({ url: result.url }).length === 0) {
+                
+                db.Article.create(result)
+                    .then(function (dbArticle) {
+                        // View the added result in the console
+                        console.log(dbArticle);
+                        results.push(result);
+                    })
+                    .catch(function (err) {
+                        // If an error occurred, send it to the client
+                        return res.json(err);
+                    });
+                }
+            });
         res.json("Scrape Successful!");
     });
+})
+
+app.get("/scraped", function (req, res) {
+    db.Article.find({}).then(function (dbArticle) {
+        res.json(dbArticle);
+    }).catch(function (err) {
+        res.json(err)
+    })
 })
 
 app.listen(process.env.PORT || 3000, function () {
