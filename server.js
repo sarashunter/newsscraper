@@ -36,6 +36,8 @@ app.get("/scrape", function (req, res) {
             var result = {};
 
             result.title = $(element).text();
+            result.url= $(element).attr("href");
+            result.author = $(element).parent().parent().children(".c-byline").children().first().text().trim();
 
             db.Article.create(result)
                 .then(function (dbArticle) {
