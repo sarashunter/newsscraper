@@ -11,7 +11,18 @@ var db = require("./models");
 
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+
+app.use(express.static("public"));
+
+var exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
+var routes = require("./controllers/articleController.js");
+
+app.use(routes);
 
 app.get("/scrape", function (req, res) {
     axios.get("https://vox.com/").then(function (response) {
@@ -38,7 +49,7 @@ app.get("/scrape", function (req, res) {
                 });
 
         });
-        res.json(results);
+        res.json("Scrape Successful!");
     });
 })
 
