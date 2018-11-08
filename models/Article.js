@@ -11,7 +11,8 @@ var ArticleSchema = new Schema({
 
     url:{
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
 
     author:{
