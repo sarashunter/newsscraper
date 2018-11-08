@@ -53,9 +53,8 @@ app.get("/scrape", function (req, res) {
                     // If an error occurred, send it to the client
                     return res.json(err);
                 });
-
+                res.json("Scrape Successful!");
         });
-        res.json("Scrape Successful!");
     });
 })
 

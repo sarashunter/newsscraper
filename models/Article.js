@@ -16,8 +16,7 @@ var ArticleSchema = new Schema({
     },
 
     author:{
-        type: String,
-        required: true
+        type: String
     },
     
     comments:[{
