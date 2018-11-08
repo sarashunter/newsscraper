@@ -5,6 +5,7 @@ loadComments = (id) => {
 $("#submit").on("click", () => {
     event.preventDefault();
 
+
     $.ajax({
         type: "POST",
         url: "/submit",
@@ -14,11 +15,17 @@ $("#submit").on("click", () => {
             id: $("#submit").attr("data-id")
         }
     }).then((data) => {
-        loadComments($("#submit").attr("data-id"));
+        console.log("data" + JSON.stringify(data));
+        const id = data.comments.slice(-1);
+        var newComment = $("<div>");
+        newComment.attr("id", id);
+        newComment.html( `<button class="delete" data-id="${id}" data-commentId="${id}">Delete</button>` + $("#comment").val());
+    
+        $("#comments").append(newComment);
     })
 })
 
-$(".delete").click(function () {
+    $(document).on('click', '.delete', function() {
     event.preventDefault();
     const commentID = $(this).attr("data-commentId");
     console.log("in here?");
@@ -34,3 +41,4 @@ $(".delete").click(function () {
         }
     });
 })
+// })

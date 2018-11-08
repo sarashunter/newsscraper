@@ -10,15 +10,15 @@
     </div>
 
 
-
-    {{#each article.comments}}
-    {{#if this.exists}}
-    <div id={{this._id}}>
+    <div id="comments">
+        {{#each article.comments}}
+        {{#if this.exists}}
+        <div id={{this._id}}>
             <button class="delete" data-id="{{this._id}}" data-commentId="{{this._id}}">Delete</button>
-        {{this.body}}
+            {{this.body}}
+        </div>
+        {{/if}}
+        {{/each}}
+
     </div>
-    {{/if}}
-    {{/each}}
-
-
 </div>
