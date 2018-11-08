@@ -19,7 +19,7 @@ $("#submit").on("click", () => {
         const id = data.comments.slice(-1);
         var newComment = $("<div>");
         newComment.attr("id", id);
-        newComment.html( `<button class="delete" data-id="${id}" data-commentId="${id}">Delete</button>` + $("#comment").val());
+        newComment.html( `<button  type="button" class="btn btn-light delete" data-id="${id}" data-commentId="${id}"><img src="/assets/open-iconic-master/svg/trash.svg" alt="icon name"></button>` + $("#comment").val());
     
         $("#comments").append(newComment);
     })

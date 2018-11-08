@@ -14,7 +14,7 @@
         {{#each article.comments}}
         {{#if this.exists}}
         <div id={{this._id}}>
-            <button class="delete" data-id="{{this._id}}" data-commentId="{{this._id}}"><img src="/assets/open-iconic-master/svg/trash.svg" alt="icon name"></button>
+            <button type="button" class="btn btn-light delete" data-id="{{this._id}}" data-commentId="{{this._id}}"><img src="/assets/open-iconic-master/svg/trash.svg" alt="icon name"></button>
             {{this.body}}
         </div>
         {{/if}}
