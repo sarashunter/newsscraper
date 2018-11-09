@@ -1,3 +1,9 @@
-.articleTitle, .articleButton:hover{
+a:hover, .articleButton:hover{
     background-color: #fff200;
+}
+
+@media only screen and (max-width: 768px) {
+.articleTitle{
+    background-color: #fff200;
+}
 }
