@@ -55,13 +55,14 @@ app.get("/scrape", function (req, res) {
                 })
                 .catch(function (err) {
                     // If an error occurred, send it to the client
-                    return res.json(err);
+                    return console.log(err);
                 });
 
         });
-        res.json("Scrape Successful!");
+        // res.json("Scrape Successful!");
+        res.render("success")
     });
-})
+});
 
 //API Route to see the articles in the mongoDB
 app.get("/scraped", function (req, res) {
@@ -76,8 +77,9 @@ app.get("/scraped", function (req, res) {
 //HTML Route that renders all articles
 app.get("/", function (req, res) {
 
+    //Reverse shows the latest article first.
     db.Article.find(function (err, articles) {
-        res.render("index", { articles: articles })
+        res.render("index", { articles: articles.reverse() })
     })
 })
 
